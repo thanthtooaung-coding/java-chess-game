@@ -41,14 +41,17 @@ public class Board {
         return board[x][y];
     }
 
-    public void movePiece(int startX, int startY, int endX, int endY) {
+    public Piece movePiece(int startX, int startY, int endX, int endY) {
+        Piece capturedPiece = board[endX][endY];
         Piece piece = board[startX][startY];
-        board[endX][endY] = board[startX][startY];
+        board[endX][endY] = piece;
         board[startX][startY] = null;
 
         if (piece instanceof Pawn && (endX == 0 || endX == 7)) {
             board[endX][endY] = new Queen(piece.isWhite());
         }
+
+        return capturedPiece;
     }
 
     public Piece[][] getBoard() {
@@ -80,5 +83,32 @@ public class Board {
             }
         }
         return false;
+    }
+
+    public boolean hasValidMoves(boolean isWhite) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board[i][j];
+                if (piece != null && piece.isWhite() == isWhite) {
+                    for (int x = 0; x < 8; x++) {
+                        for (int y = 0; y < 8; y++) {
+                            if (piece.isValidMove(i, j, x, y, board)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void reset() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = null;
+            }
+        }
+        setupBoard();
     }
 }

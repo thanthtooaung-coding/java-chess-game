@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class HelloController {
+public class ChessController {
 
     @FXML
     private GridPane gridPane;

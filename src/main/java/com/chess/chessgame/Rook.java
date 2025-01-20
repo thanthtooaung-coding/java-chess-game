@@ -7,7 +7,24 @@ public class Rook extends Piece {
 
     @Override
     public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
-        // Add rook-specific movement logic.
-        return true;
+        if (startX != endX && startY != endY) {
+            return false;
+        }
+
+        int xDirection = Integer.compare(endX, startX);
+        int yDirection = Integer.compare(endY, startY);
+
+        int x = startX + xDirection;
+        int y = startY + yDirection;
+
+        while (x != endX || y != endY) {
+            if (board[x][y] != null) {
+                return false;
+            }
+            x += xDirection;
+            y += yDirection;
+        }
+
+        return board[endX][endY] == null || board[endX][endY].isWhite() != this.isWhite();
     }
 }
